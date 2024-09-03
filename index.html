@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Strength Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Password Strength Checker</h1>
+        <div class="input-container">
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <div class="strength-meter">
+            <div class="strength-bar"></div>
+        </div>
+        <div id="result"></div>
+        <div id="cracking-time"></div>
+        <ul id="feedback"></ul>
+    </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const strengthBar = document.querySelector('.strength-bar');
+        const result = document.getElementById('result');
+        const crackingTime = document.getElementById('cracking-time');
+        const feedbackList = document.getElementById('feedback');
+
+        let typingTimer;
+        const doneTypingInterval = 300; // ms
+
+        passwordInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(checkPassword, doneTypingInterval);
+        });
+
+        function checkPassword() {
+            const password = passwordInput.value;
+            fetch('/check_password', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `password=${encodeURIComponent(password)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                result.textContent = `Strength: ${data.strength}`;
+                crackingTime.textContent = `Estimated time to crack: ${data.cracking_time}`;
+                
+                let strengthPercentage = 0;
+                switch(data.strength) {
+                    case 'Very Weak': strengthPercentage = 20; break;
+                    case 'Weak': strengthPercentage = 40; break;
+                    case 'Moderate': strengthPercentage = 60; break;
+                    case 'Strong': strengthPercentage = 80; break;
+                    case 'Very Strong': strengthPercentage = 100; break;
+                }
+                
+                strengthBar.style.width = `${strengthPercentage}%`;
+                strengthBar.className = 'strength-bar ' + data.strength.toLowerCase().replace(' ', '-');
+
+                feedbackList.innerHTML = '';
+                data.feedback.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item;
+                    feedbackList.appendChild(li);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
