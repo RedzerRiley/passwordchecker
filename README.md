@@ -1,4 +1,4 @@
-# Advanced Real-Time Password Strength Checker
+#  Real-Time Password Strength Checker using Python
 
 This project is a web-based password strength checker that provides real-time feedback on password strength, including an estimation of how long it would take to crack the password using a brute force attack, along with user-friendly suggestions and educational content.
 
