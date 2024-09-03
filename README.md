@@ -59,6 +59,3 @@ The frontend is built with HTML, CSS, and JavaScript. Here's how it works:
    - The strength meter changes color based on the password strength.
    - Responsive design ensures usability on various device sizes.
 
-## Setup and Running
-
-1. Install the required Python packages:
