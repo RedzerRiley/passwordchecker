@@ -1,6 +1,6 @@
 #  Real-Time Password Strength Checker using Python
 
-This project is a web-based password strength checker that provides real-time feedback on password strength, including an estimation of how long it would take to crack the password using a brute force attack, along with user-friendly suggestions and educational content.
+This project is a web-based password strength checker that provides real-time feedback on password strength, including an estimation of how long it would take to crack the password using a brute force attack, along with user-friendly suggestions and educational content. The Web Application UI was created using HTML and CSS with the help of AI
 
 ## Features
 
